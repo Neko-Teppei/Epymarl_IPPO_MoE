@@ -1,0 +1,42 @@
+# --- IPPO-MoE specific parameters ---
+# 说明：基于原生 IPPO 配置扩展，仅替换 learner 与 critic，并新增 MoE 超参数。
+
+action_selector: "soft_policies"
+mask_before_softmax: True
+
+runner: "parallel"
+
+buffer_size: 10
+batch_size_run: 10
+batch_size: 10
+
+# update the target network every {} training steps
+target_update_interval_or_tau: 0.01
+
+lr: 0.0003
+hidden_dim: 128
+rnn_hidden_dim: 128
+
+obs_agent_id: True
+obs_last_action: False
+obs_individual_obs: False
+
+agent_output_type: "pi_logits"
+learner: "ippo_moe_learner"
+entropy_coef: 0.001
+standardise_returns: False
+standardise_rewards: True
+use_rnn: True
+q_nstep: 5  # 1 corresponds to normal r + gammaV
+critic_type: "ippo_moe_critic"
+epochs: 4
+eps_clip: 0.2
+
+# MoE critic hyper-parameters
+moe_num_experts: 8
+moe_lb_coef: 0.05
+moe_ent_coef: 0.005
+
+name: "ippo_moe"
+
+t_max: 20050000
